@@ -1,11 +1,9 @@
 package com.maynar.kafkaproducerdemo1.controller;
 
+import com.maynar.kafkaproducerdemo1.model.Employee;
 import com.maynar.kafkaproducerdemo1.service.KafkaSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -13,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApacheKafkaWebController {
 
     @Autowired
-    KafkaSender kafkaSender;
+    private KafkaSender kafkaSender;
 
-    @GetMapping(value = "/producer")
-    public String producer(@RequestParam("message") String message) {
-        kafkaSender.send(message);
+    @PostMapping(value = "/employee")
+    public String producer(@RequestBody Employee employee) {
+        kafkaSender.send(employee);
 
-        return "Message sent to the Kafka Topic java_in_use_topic Successfully";
+        return "Message sent to the Kafka Topic Successfully";
     }
 
 }

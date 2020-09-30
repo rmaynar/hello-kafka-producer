@@ -16,6 +16,12 @@ bin/zookeeper-server-start.sh conf/zookeeper.properties
 bin/kafka-server-start.sh config/server.properties
 ```
 
+## Creating a topic with 1 partition
+
+```bash
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic globant_topic
+```
+
 ## Running a consumer
 Topic 'globant_topic' is used for the example
 
