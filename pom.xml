@@ -50,6 +50,11 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.maynar</groupId>
+			<artifactId>java-data-model</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

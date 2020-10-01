@@ -1,6 +1,6 @@
 package com.maynar.kafkaproducerdemo1.service;
 
-import com.maynar.kafkaproducerdemo1.model.Employee;
+import com.maynar.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,10 +12,20 @@ public class KafkaSender {
     @Autowired
     private KafkaTemplate<String, Employee> kafkaTemplate;
 
-    @Value("${kafka.topic}")
-    String kafkaTopic;
+    @Autowired
+    private KafkaTemplate<String, String> kafkaStringTemplate;
 
-    public void send(Employee employee) {
-        kafkaTemplate.send(kafkaTopic, employee);
+    @Value("${kafka.topic.json}")
+    String kafkaTopicJson;
+
+    @Value("${kafka.topic.string}")
+    String kafkaTopicString;
+
+    public void sendEmployee(Employee employee) {
+        kafkaTemplate.send(kafkaTopicJson, employee);
+    }
+
+    public void sendString(String msg) {
+        kafkaStringTemplate.send(kafkaTopicString, msg);
     }
 }

@@ -1,6 +1,6 @@
 package com.maynar.kafkaproducerdemo1.config;
 
-import com.maynar.kafkaproducerdemo1.model.Employee;
+import com.maynar.model.Employee;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +21,21 @@ public class KafkaConfiguration {
     private String hostServer;
 
     @Bean
-    public ProducerFactory<String, Employee> getFactory(){
+    public ProducerFactory<String, String> getStringFactory(){
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, hostServer);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
 
+    @Bean
+    public KafkaTemplate<String, String> getStringTemplate(){
+        return new KafkaTemplate<>(getStringFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, Employee> getUserFactory(){
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, hostServer);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -31,7 +44,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Employee> getTemplate(){
-        return new KafkaTemplate<>(getFactory());
+    public KafkaTemplate<String, Employee> getEmployeeTemplate(){
+        return new KafkaTemplate<>(getUserFactory());
     }
 }
